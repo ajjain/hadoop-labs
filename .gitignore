@@ -1,0 +1,7 @@
+**/target/**
+**/bin/**
+**/log/**
+**/*.settings
+**/*.project
+**/*.classpath
+docs/
