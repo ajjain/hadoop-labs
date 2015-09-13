@@ -20,5 +20,6 @@
 	</dependencies>
 	<modules>
 		<module>ci-client</module>
+		<module>ci-etl</module>
 	</modules>
 </project>
