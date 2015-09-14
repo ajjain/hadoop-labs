@@ -122,6 +122,7 @@ public class Client {
 	 * The main method.
 	 * args[0]: date in MM-DD-YYYY format
 	 * args[1]: output folder name
+	 * args[2]: number of events to be generated
 	 * 
 	 * @param args the arguments
 	 */
@@ -129,6 +130,7 @@ public class Client {
 		
 		String dateStr = args[0];
 		String outputLocation = args[1];
+		String eventCountsStr = args[2];
 		String[] dateArr = dateStr.split("-");
 		Calendar c = Calendar.getInstance();
 		c.set(
@@ -138,11 +140,11 @@ public class Client {
 				00, 0, 0
 		);
 		Date dt = c.getTime();
-		int randomsessioninterval = (int)(30*60*rand.nextFloat());
+		int eventCounts = Integer.parseInt(eventCountsStr);
 		Client.getInstance().generateEventsinFile(
 				outputLocation+System.getProperty("file.separator")+dateStr+".data", 
 				dt, 
-				randomsessioninterval
+				eventCounts
 		);
 	}
 }

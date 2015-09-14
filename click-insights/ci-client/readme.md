@@ -24,10 +24,11 @@ mvn clean install
 Above command shall generate a fat jar in target folder under ci-client folder. 
 ### JSON event generation
 ```
-java -jar .\target\ci-client-1.0.jar MM-DD-YYYY OUTPUT_LOCATION
+java -jar .\target\ci-client-1.0.jar MM-DD-YYYY OUTPUT_LOCATION EVENT_COUNT
 ```
 * MM-DD-YYYY formatted date for which data needs to be generated.
 * OUTPUT_LOCATION represents the location where you want events to be generated.
+* EVENT_COUNT represents the number of events to be generated in a file
 
 ### FSA based event generator
 * Event trails represents real time user session with all activities on shopping site is generated. Also, generates patterns like browser refresh & back button press.
