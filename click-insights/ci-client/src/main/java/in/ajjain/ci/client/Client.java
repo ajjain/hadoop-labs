@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Client.
  */
