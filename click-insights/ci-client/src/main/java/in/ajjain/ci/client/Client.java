@@ -7,8 +7,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -37,10 +38,9 @@ public class Client {
 	 * Instantiates a new client.
 	 */
 	private Client(){
-		ClassLoader classLoader = getClass().getClassLoader();
-		File ufile = new File(classLoader.getResource("user.csv").getFile());
-		File lfile = new File(classLoader.getResource("location.csv").getFile());
-		try (BufferedReader br = new BufferedReader(new FileReader(ufile))) {
+		InputStream uinput = getClass().getResourceAsStream("/user.csv");
+		InputStream linput = getClass().getResourceAsStream("/location.csv");
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(uinput))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				List<String> items = Arrays.asList(line.split("\\s*,\\s*"));
@@ -51,7 +51,7 @@ public class Client {
 			throw new RuntimeException(e);
 		}
 
-		try (BufferedReader br = new BufferedReader(new FileReader(lfile))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(linput))){
 			String line;
 			while ((line = br.readLine()) != null) {
 				List<String> items = Arrays.asList(line.split("\\s*,\\s*"));
@@ -120,14 +120,29 @@ public class Client {
 	
 	/**
 	 * The main method.
-	 *
+	 * args[0]: date in MM-DD-YYYY format
+	 * args[1]: output folder name
+	 * 
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		Calendar c = Calendar.getInstance();
-		c.set(2015, 9, 11, 00, 0, 0);
-		Date dt = c.getTime();
 		
-		Client.getInstance().generateEventsinFile("D:\\RnD\\hadoop-labs\\clicks.dat", dt, 100);
+		String dateStr = args[0];
+		String outputLocation = args[1];
+		String[] dateArr = dateStr.split("-");
+		Calendar c = Calendar.getInstance();
+		c.set(
+				Integer.parseInt(dateArr[2]), 
+				Integer.parseInt(dateArr[0]), 
+				Integer.parseInt(dateArr[1]), 
+				00, 0, 0
+		);
+		Date dt = c.getTime();
+		int randomsessioninterval = (int)(30*60*rand.nextFloat());
+		Client.getInstance().generateEventsinFile(
+				outputLocation+System.getProperty("file.separator")+dateStr+".data", 
+				dt, 
+				randomsessioninterval
+		);
 	}
 }

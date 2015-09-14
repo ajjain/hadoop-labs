@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,9 +29,8 @@ public class UserSessionGenerator {
 	 * Instantiates a new user session generator.
 	 */
 	private UserSessionGenerator(){
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("page.csv").getFile());
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+		InputStream input = getClass().getResourceAsStream("/page.csv");
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(input))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				List<String> items = Arrays.asList(line.split("\\s*,\\s*"));
