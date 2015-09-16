@@ -121,9 +121,10 @@ public class ClickInsightsETL {
 		 */
 		public void reduce(Text key, Iterable<Text> values,	Context context) 
 				throws IOException, InterruptedException {
-			for(Text value : values)
+			for(Text value : values){
 				outText.set(value);
 				context.write(NullWritable.get(), outText);
+			}
 		}
 	}
 
@@ -140,7 +141,7 @@ public class ClickInsightsETL {
 		job.setMapperClass(CIMapper.class);
 		job.setPartitionerClass(HourPartitioner.class);
 		job.setReducerClass(CIReducer.class);
-		job.setOutputKeyClass(NullWritable.class);
+		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 		job.setNumReduceTasks(4);
 		FileInputFormat.addInputPath(job, new Path(args[0]));
