@@ -6,17 +6,19 @@ import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.lib.IdentityReducer;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Partitioner;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ClickInsightsETL.
  * 
@@ -84,8 +86,14 @@ public class ClickInsightsETL {
 		}
 	}
 
+	/**
+	 * The Class HourPartitioner.
+	 */
 	public static class HourPartitioner extends Partitioner<Text, Text>{
 
+		/* (non-Javadoc)
+		 * @see org.apache.hadoop.mapreduce.Partitioner#getPartition(java.lang.Object, java.lang.Object, int)
+		 */
 		@Override
 		public int getPartition(Text key, Text value, int numReduceTasks) {
 			if(numReduceTasks == 0){
@@ -100,13 +108,39 @@ public class ClickInsightsETL {
 		}
 
 	}
+
+	/**
+	 * The Class CIReducer.
+	 */
+	public static class CIReducer extends Reducer<Text, Text, NullWritable, Text> {
+		/** The out text. */
+		private Text outText = new Text();
+		
+		/* (non-Javadoc)
+		 * @see org.apache.hadoop.mapreduce.Reducer#reduce(KEYIN, java.lang.Iterable, org.apache.hadoop.mapreduce.Reducer.Context)
+		 */
+		public void reduce(Text key, Iterable<Text> values,	Context context) 
+				throws IOException, InterruptedException {
+			for(Text value : values)
+				outText.set(value);
+				context.write(NullWritable.get(), outText);
+		}
+	}
+
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws Exception the exception
+	 */
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 		Job job = Job.getInstance(conf, "Click Insights ETL");
 		job.setJarByClass(ClickInsightsETL.class);
 		job.setMapperClass(CIMapper.class);
 		job.setPartitionerClass(HourPartitioner.class);
-		job.setOutputKeyClass(Text.class);
+		job.setReducerClass(CIReducer.class);
+		job.setOutputKeyClass(NullWritable.class);
 		job.setOutputValueClass(Text.class);
 		job.setNumReduceTasks(4);
 		FileInputFormat.addInputPath(job, new Path(args[0]));

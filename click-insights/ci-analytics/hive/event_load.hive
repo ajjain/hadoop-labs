@@ -1,0 +1,1 @@
+LOAD DATA INPATH '/user/ajjain/output/*' OVERWRITE INTO TABLE events;

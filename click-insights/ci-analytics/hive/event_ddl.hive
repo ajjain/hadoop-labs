@@ -1,0 +1,18 @@
+CREATE EXTERNAL TABLE events(
+	event_time TIMESTAMP,
+	url STRING,
+	method STRING,
+	browser STRING,
+	email STRING,
+	fname STRING,
+	lname STRING,
+	geoname STRING,
+	latitude FLOAT,
+	longitude FLOAT,
+	sessionid STRING
+) ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION '/user/ajjain/hive/events';
+
+
+ 
+ 
