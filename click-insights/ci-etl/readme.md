@@ -2,7 +2,8 @@
 This module extracts data from filesystem and transforms JSON data into flat file and loads the data partitioned by timestamp.  
 
 ### MapReduce Job
-Map Reduce job transforms JSON events into comma separated values. Also it splits events based on event date hour and store it back on HDFS.
+Map Reduce job transforms JSON events into comma separated values. Also it splits events based on event date hour and store it back on HDFS. For this it uses a custom partitioner ClickInsightsETL.HourPartitioner.
+   
 
 #### Sample command to run MR Job
 ```
