@@ -14,6 +14,7 @@ session_dimensions = FOREACH group_events_by_sessionid {
 	total_items_in_cart = COUNT(items_added_to_cart) - COUNT(items_removed_from_cart);
 	items_viewed = FILTER ordered_events BY method == 'GET' AND url matches '.*rest.*';
 	page_viewed = FILTER ordered_events BY method == 'GET' AND url matches '.*view.*';
+	
 	GENERATE 
 		group.sessionid, group.email, group.fname, group.lname, group.geoname, group.latitude, group.longitude, 
 		total_items_in_cart, 
