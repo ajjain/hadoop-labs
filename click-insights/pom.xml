@@ -23,5 +23,6 @@
 	<modules>
 		<module>ci-client</module>
 		<module>ci-etl</module>
+		<module>ci-analytics</module>
 	</modules>
 </project>
