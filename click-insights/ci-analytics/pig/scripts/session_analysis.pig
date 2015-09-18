@@ -3,7 +3,7 @@ REGISTER ci-analytics-1.0.jar;
 DEFINE CICount com.ajjain.ci.analytics.CICounter();
 
 -- load all the events
-events = load '/user/ajjain/events/*' using PigStorage(',') AS (event_time:chararray, url:chararray, method:chararray, browser:chararray, email:chararray, fname:chararray, lname:chararray, geoname:chararray, latitude:FLOAT, longitude:FLOAT, sessionid:chararray);
+events = load '$INPUT' using PigStorage(',') AS (event_time:chararray, url:chararray, method:chararray, browser:chararray, email:chararray, fname:chararray, lname:chararray, geoname:chararray, latitude:FLOAT, longitude:FLOAT, sessionid:chararray);
 
 group_events_by_sessionid = GROUP events BY (sessionid, email, fname, lname, geoname, latitude, longitude);
 
@@ -23,6 +23,4 @@ session_dimensions = FOREACH group_events_by_sessionid {
 		(COUNT(pay_events) > 0 ? 1 : 0) as paid; 
 };
 
-session_dimensions_limit = LIMIT session_dimensions 10;
-
-DUMP session_dimensions_limit;
+STORE session_dimensions INTO '$OUTPUT' using PigStorage(',');
