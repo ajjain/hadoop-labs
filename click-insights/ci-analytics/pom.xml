@@ -53,7 +53,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>in.ajjain.ci.client.Client</mainClass>
+									<mainClass>com.ajjain.ci.analytics.CICounter</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

@@ -1,10 +1,6 @@
 REGISTER ci-analytics-1.0.jar;
 
---------------------------------------------------------------------
--- perform the analysis of session and generate the summary results
---------------------------------------------------------------------
-
-DEFINE CI_COUNT in.ajjain.ci.analytics.CICounter;
+DEFINE CICount com.ajjain.ci.analytics.CICounter();
 
 -- load all the events
 events = load '/user/ajjain/events/*' using PigStorage(',') AS (event_time:chararray, url:chararray, method:chararray, browser:chararray, email:chararray, fname:chararray, lname:chararray, geoname:chararray, latitude:FLOAT, longitude:FLOAT, sessionid:chararray);
@@ -22,8 +18,8 @@ session_dimensions = FOREACH group_events_by_sessionid {
 		COUNT(items_in_cart) as cnt_items_in_cart, 
 		COUNT(items_viewed) as cnt_items_viewed, 
 		COUNT(page_viewed) as cnt_page_viewed,
-		CI_COUNT(ordered_events, "INTERVAL") as session_interval,
-		CI_COUNT(page_viewed, "REFRESH") as cnt_refresh,
+		CICount(ordered_events, 'INTERVAL') as session_interval,
+		CICount(page_viewed, 'REFRESH') as cnt_refresh,
 		(COUNT(pay_events) > 0 ? 1 : 0) as paid; 
 };
 
