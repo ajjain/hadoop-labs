@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import com.mifmif.common.regex.Generex;
 
@@ -25,6 +26,8 @@ public class UserSessionGenerator {
 	/** The page list. */
 	private List<List<String>> pageList = new ArrayList<>();
 
+	/** The catalog list. */
+	private List<List<String>> catalogList = new ArrayList<>();
 	/**
 	 * Instantiates a new user session generator.
 	 */
@@ -35,6 +38,18 @@ public class UserSessionGenerator {
 			while ((line = br.readLine()) != null) {
 				List<String> items = Arrays.asList(line.split("\\s*,\\s*"));
 				pageList.add(items);
+			}
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		
+		InputStream cinput = getClass().getResourceAsStream("/catalog.csv");
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(cinput))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				List<String> items = Arrays.asList(line.split("\\s*,\\s*"));
+				catalogList.add(items);
 			}
 		}
 		catch (IOException e) {
@@ -54,6 +69,9 @@ public class UserSessionGenerator {
 		return singleton;
 	}
 
+	/** The Constant rand. */
+	private static final Random rand = new Random();
+	
 	public List<EventBean> generate(String sessionid, String email, String fname,
 			String lname, String latitude, String longitude, String geoname, String browser, Date fromTime, int sessionlength){
 		List<EventBean> eventList = new ArrayList<>();
@@ -62,10 +80,15 @@ public class UserSessionGenerator {
 		long timeL = fromTime.getTime();
 		long increment = (sessionlength*1000)/urlIndexStrArray.length;
 		for (String urlIndexStr : urlIndexStrArray) {
+			int cIndex = (int)(catalogList.size() * rand.nextFloat());
+			List<String> catalogEntry = catalogList.get(cIndex);
 			List<String> pageEvent = pageList.get(Integer.parseInt(urlIndexStr)-1);
 			timeL = timeL + increment;
 			Date eventdt = new Date(timeL);
-			EventBean eb = new EventBean(sessionid, email, fname, lname, latitude, longitude, df.format(eventdt), geoname, browser, pageEvent.get(0), pageEvent.get(1));
+			String url = pageEvent.get(0);
+			url = url.replace("{categoryid}", catalogEntry.get(0));
+			url = url.replace("{productid}", catalogEntry.get(1));
+			EventBean eb = new EventBean(sessionid, email, fname, lname, latitude, longitude, df.format(eventdt), geoname, browser, url, pageEvent.get(1));
 			eventList.add(eb);
 		}
 		return eventList;
@@ -74,16 +97,10 @@ public class UserSessionGenerator {
 	private static final String sessionRegEx = 
 			"1([-]2)+"
 					+"("
-					+ "(([-]3)|([-]3[-]4)|([-]3[-]4[-]5))|"
-					+ "(([-]6)|([-]6[-]7)|([-]6[-]7[-]8))|"
-					+ "(([-]9)|([-]9[-]10)|([-]9[-]10[-]11))|"
-					+ "(([-]12)|([-]12[-]13)|([-]12[-]13[-]14))|"
-					+ "(([-]15)|([-]15[-]16)|([-]15[-]16[-]17))|"
-					+ "(([-]18)|([-]18[-]19)|([-]18[-]19[-]20))|"
-					+ "(([-]21)|([-]21[-]22)|([-]21[-]22[-]23))|"
-					+ "([-]24)"
+					+ "(([-]3)|([-]3[-]4))|"
+					+ "([-]6)"
 					+ ")*"
-					+"(([-]25[-]26)|([-]25)|([-]26))";
+					+"(([-]6[-]7)|([-]7)|([-]8)|([-]7[-]8))";
 
 	/** The generex. */
 	private static Generex generex = new Generex(sessionRegEx);
@@ -101,6 +118,10 @@ public class UserSessionGenerator {
 		System.out.println(
 				UserSessionGenerator.getInstance().generate("124", "abhishek", "abhishek", "abhishek", "1.1", "-1.1", "Indore", "chrome", dt, 200)
 				);
+		
+		for (int i=0; i< 100; i++){
+			System.out.println(generex.random(10));;
+		}
 	}
 
 }
