@@ -1,8 +1,13 @@
+-- event table represents the raw events
 CREATE EXTERNAL TABLE events(event_time TIMESTAMP, url STRING, method STRING, browser STRING,email STRING,fname STRING,lname STRING,geoname STRING,	latitude FLOAT,	longitude FLOAT,sessionid STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION '/user/ajjain/events';
 
-CREATE EXTERNAL TABLE hourly_page_visits_by_users
+-- session_dimension table represents all the session level dimensions for shopping cart, user and its demographics
+CREATE EXTERNAL TABLE session_dimensions(sessionid STRING, email STRING, fname STRING, lname STRING, geoname STRING, latitude FLOAT, longitude FLOAT, cnt_items_in_cart INTEGER, cnt_items_viewed INTEGER, cnt_page_viewed INTEGER, session_interval INTEGER, cnt_refresh INTEGER, has_paid INTEGER) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION '/user/ajjain/session';
 
-CREATE EXTERNAL TABLE hourly_page_visits_by_geo
+-- usecase1: most visited page by users
+CREATE EXTERNAL TABLE hourly_page_visits_by_users(hour TIMESTAMP, page STRING, email STRING, cnt_page_views INTEGER) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION '/user/ajjain/analytics/hourly_page_visits_by_users';
+
+CREATE EXTERNAL TABLE hourly_page_visits_by_geo(hour TIMESTAMP, page STRING, geoname STRING, latitude FLOAT, longitude FLOAT, cnt_page_views INTEGER) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION '/user/ajjain/analytics/hourly_page_visits_by_users';
 
 CREATE EXTERNAL TABLE hourly_refresh_back_hits
 
