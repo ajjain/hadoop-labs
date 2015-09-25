@@ -22,10 +22,14 @@ public class HBaseManager {
 	public HBaseManager(){
 		try {
 			config  = HBaseConfiguration.create();
-			InputStream hbasesite = getClass().getResourceAsStream("/hbase-site.xml");
-			InputStream coresite = getClass().getResourceAsStream("/core-site.xml");
-			config.addResource(hbasesite);
-			config.addResource(coresite);
+			config.clear();
+            config.set("hbase.zookeeper.quorum", "127.0.0.1");
+            config.set("hbase.zookeeper.property.clientPort","2181");
+            config.set("hbase.master", "127.0.0.1:16000");
+			//InputStream hbasesite = getClass().getResourceAsStream("/hbase-site.xml");
+			//InputStream coresite = getClass().getResourceAsStream("/core-site.xml");
+			//config.addResource(hbasesite);
+			//config.addResource(coresite);
 		}
 		catch(Exception e){
 			throw new RuntimeException("unable to instantiate HBASE configuration manager", e);

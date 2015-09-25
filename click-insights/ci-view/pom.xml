@@ -22,9 +22,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!--dependency> <groupId>org.apache.hbase</groupId> <artifactId>hbase-client</artifactId> 
+			<version>1.1.2</version> </dependency -->
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-client</artifactId>
+			<artifactId>hbase-shaded-client</artifactId>
 			<version>1.1.2</version>
 		</dependency>
 		<dependency>
@@ -65,7 +67,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.ajjain.ci.analytics.CICounter</mainClass>
+									<mainClass>in.ajjain.ci.view.service.ClickInsightsApplication</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
