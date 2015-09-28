@@ -1,5 +1,9 @@
 -- event table represents the raw events
-CREATE EXTERNAL TABLE events(event_time TIMESTAMP, url STRING, method STRING, browser STRING,email STRING,fname STRING,lname STRING,geoname STRING,	latitude FLOAT,	longitude FLOAT,sessionid STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION '/user/ajjain/events';
+CREATE EXTERNAL TABLE events_log(event_time STRING, url STRING, method STRING, browser STRING,email STRING,fname STRING,lname STRING,geoname STRING,	latitude FLOAT,	longitude FLOAT,sessionid STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION '/user/ajjain/events';
+
+CREATE EXTERNAL TABLE event_summary_hourly (hour STRING, page STRING, cnt_page_views INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION '/user/ajjain/analytics/event_summary_hourly';
+
+INSERT OVERWRITE TABLE event_summary_hourly SELECT substring(event_time, 1, 13) as hour, url, count(*) FROM events_log WHERE instr(url, 'view') > 0 GROUP BY substring(event_time, 1, 13), url
 
 -- session_dimension table represents all the session level dimensions for shopping cart, user and its demographics
 CREATE EXTERNAL TABLE session_dimensions(sessionid STRING, email STRING, fname STRING, lname STRING, geoname STRING, latitude FLOAT, longitude FLOAT, cnt_items_in_cart INTEGER, cnt_items_viewed INTEGER, cnt_page_viewed INTEGER, session_interval INTEGER, cnt_refresh INTEGER, has_paid INTEGER) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION '/user/ajjain/session';
