@@ -1,4 +1,4 @@
-package in.ajjain.ci.dao.exception;
+package in.ajjain.ci.common.exception;
 
 /**
  * The Class CIDAOException.

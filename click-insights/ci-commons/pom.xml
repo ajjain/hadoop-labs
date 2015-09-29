@@ -8,26 +8,19 @@
 		<artifactId>clickinsights</artifactId>
 		<version>${version}</version>
 	</parent>
-	<artifactId>ci-view</artifactId>
-	<name>Click Insights View</name>
+	<artifactId>ci-commons</artifactId>
+	<name>Click Insights Commons</name>
 	<dependencies>
 		<dependency>
-			<groupId>io.dropwizard</groupId>
-			<artifactId>dropwizard-core</artifactId>
-			<version>0.8.4</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>log4j-over-slf4j</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-shaded-client</artifactId>
+			<version>1.1.2</version>
 		</dependency>
 		<dependency>
-			<groupId>in.ajjain.ci</groupId>
-			<artifactId>ci-commons</artifactId>
-			<version>1.0</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
 		</dependency>
-
 	</dependencies>
 	<build>
 		<plugins>

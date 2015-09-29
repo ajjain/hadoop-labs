@@ -21,6 +21,7 @@
 	<dependencies>
 	</dependencies>
 	<modules>
+		<module>ci-commons</module>
 		<module>ci-client</module>
 		<module>ci-etl</module>
 		<module>ci-analytics</module>
