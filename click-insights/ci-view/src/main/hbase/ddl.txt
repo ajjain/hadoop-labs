@@ -1,1 +1,1 @@
-create 'event_summary_table','user_view'
+create 'event_summary','page_view'

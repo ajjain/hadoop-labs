@@ -4,6 +4,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 
@@ -35,14 +36,17 @@ public class CIDBUploader {
 		job.setJarByClass(CIDBUploader.class);
 		
 		job.setMapperClass(EventSummaryMapper.class);
+		job.setNumReduceTasks(4);
+		FileInputFormat.addInputPath(job, new Path(args[0]));
 		
 		TableMapReduceUtil.initTableReducerJob(
 				HBaseTableCFNames.TAB_EVENT_SUMMARY,
 				EventSummaryReducer.class,
 				job);
 		
-		job.setNumReduceTasks(4);
-		FileInputFormat.addInputPath(job, new Path(args[0]));
+		job.setMapOutputKeyClass(Text.class);
+		job.setMapOutputValueClass(Text.class);
 		System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}
 }
+
