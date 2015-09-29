@@ -26,5 +26,6 @@
 		<module>ci-etl</module>
 		<module>ci-analytics</module>
 		<module>ci-view</module>
+		<module>ci-db-upload</module>
 	</modules>
 </project>

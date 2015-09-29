@@ -1,5 +1,6 @@
 package in.ajjain.ci.dao;
 
+import in.ajjain.ci.common.hbase.HBaseTableCFNames;
 import in.ajjain.ci.common.hbase.HBaseTemplate;
 
 import java.util.ArrayList;
@@ -15,8 +16,7 @@ import org.apache.hadoop.hbase.util.Bytes;
  */
 public class EventSummaryDAO extends AbstractDAO{
 
-	/** The Constant CF_PAGE_VIEW. */
-	private static final String CF_PAGE_VIEW = "page_view";
+	
 
 	/**
 	 * Instantiates a new event summary dao.
@@ -25,7 +25,7 @@ public class EventSummaryDAO extends AbstractDAO{
 	 */
 	public EventSummaryDAO(HBaseTemplate template) {
 		super(template);
-		this.setTablename("event_summary_table");
+		this.setTablename(HBaseTableCFNames.TAB_EVENT_SUMMARY);
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class EventSummaryDAO extends AbstractDAO{
 	 * @return the page views for hour or day
 	 */
 	public Map<String, Long> getPageViewsForKey(String key){
-		Map<byte[], byte[]> result = this.getTemplate().find(this.getTablename(), key, CF_PAGE_VIEW);
+		Map<byte[], byte[]> result = this.getTemplate().find(this.getTablename(), key, HBaseTableCFNames.CF_PAGE_VIEW);
 		Map<String, Long> txResult = new HashMap<>();
 		for(Entry<byte[], byte[]> entry : result.entrySet()){
 			txResult.put(Bytes.toString(entry.getKey()), new Long(Bytes.toString(entry.getValue())) );
@@ -52,7 +52,7 @@ public class EventSummaryDAO extends AbstractDAO{
 	 */
 	public List<Map<String, Long>> getPageViewsFromToHours(String from, String to){
 		List<Map<String, Long>> txResultList = new ArrayList<>();
-		List<Map<byte[], byte[]>> resultList = this.getTemplate().find(this.getTablename(), CF_PAGE_VIEW, from, to);
+		List<Map<byte[], byte[]>> resultList = this.getTemplate().find(this.getTablename(), HBaseTableCFNames.CF_PAGE_VIEW, from, to);
 		for(Map<byte[], byte[]> result: resultList){
 			Map<String, Long> txResult = new HashMap<>();
 			for(Entry<byte[], byte[]> entry : result.entrySet()){
