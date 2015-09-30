@@ -25,7 +25,7 @@ public class ClickInsightsApplication extends Application<ClickInsightsConfigura
 	 */
 	@Override
 	public void run(ClickInsightsConfiguration config, Environment env)	throws Exception {
-		env.jersey().setUrlPattern("/rest/*");
+		env.jersey().setUrlPattern("/api/*");
 		final ClickInsightsResource resource = new ClickInsightsResource();
 		env.jersey().register(resource);
 	}
