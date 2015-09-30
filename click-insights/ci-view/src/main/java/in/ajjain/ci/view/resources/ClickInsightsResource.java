@@ -49,7 +49,7 @@ public class ClickInsightsResource {
 	@GET
     @Timed
     @Path("most_visited_pages_distribution")
-    public List<Map<String, Long>> most_visited_pages_distribution(
+    public List<Map<String, String>> most_visited_pages_distribution(
     		@QueryParam("from_hour") String fromHour,
     		@QueryParam("to_hour") String toHour) {
 		if (toHour != null && fromHour != null)

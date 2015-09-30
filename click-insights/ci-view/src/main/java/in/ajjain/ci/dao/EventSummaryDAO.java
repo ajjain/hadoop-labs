@@ -50,13 +50,13 @@ public class EventSummaryDAO extends AbstractDAO{
 	 * @param to the to
 	 * @return the page views from to hours
 	 */
-	public List<Map<String, Long>> getPageViewsFromToHours(String from, String to){
-		List<Map<String, Long>> txResultList = new ArrayList<>();
+	public List<Map<String, String>> getPageViewsFromToHours(String from, String to){
+		List<Map<String, String>> txResultList = new ArrayList<>();
 		List<Map<byte[], byte[]>> resultList = this.getTemplate().find(this.getTablename(), HBaseTableCFNames.CF_PAGE_VIEW, from, to);
 		for(Map<byte[], byte[]> result: resultList){
-			Map<String, Long> txResult = new HashMap<>();
+			Map<String, String> txResult = new HashMap<>();
 			for(Entry<byte[], byte[]> entry : result.entrySet()){
-				txResult.put(Bytes.toString(entry.getKey()), new Long(Bytes.toString(entry.getValue())) );
+				txResult.put(Bytes.toString(entry.getKey()), Bytes.toString(entry.getValue()) );
 			}
 			txResultList.add(txResult);
 		}

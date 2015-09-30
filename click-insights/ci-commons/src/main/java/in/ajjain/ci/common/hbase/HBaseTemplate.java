@@ -89,6 +89,7 @@ public class HBaseTemplate {
 			Get get = new Get(Bytes.toBytes(rowkey));
 			Result result = table.get(get);
 			Map<byte[],NavigableMap<byte[],byte[]>> familyMap = result.getNoVersionMap();
+			
 			return familyMap;
 		} catch (IOException e) {
 			throw new CIDAOException(e);
@@ -130,6 +131,7 @@ public class HBaseTemplate {
 			ResultScanner scanner = table.getScanner(scan);
 			for (Result result = scanner.next(); result != null; result = scanner.next()){
 				NavigableMap<byte[], byte[]> familyMap = result.getFamilyMap(Bytes.toBytes(columnFamily));
+				familyMap.put(Bytes.toBytes("rowkey"), result.getRow());
 				resultList.add(familyMap);
 			}
 			return resultList;
