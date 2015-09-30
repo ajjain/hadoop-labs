@@ -35,7 +35,7 @@ public class ClickInsightsETL {
 		private static final Gson gson = new Gson();
 
 		/** The timestamp field format. */
-		private static String TIMESTAMP_FIELD_FORMAT = "MM/dd/yyyy HH";	
+		private static String TIMESTAMP_FIELD_FORMAT = "yyyy-MM-dd HH";	
 
 		/** The field sequence. */
 		private static String FIELD_SEQUENCE = "timestamp,url,method,browser,email,fname,lname,geoname,latitude,longitude,sessionid";

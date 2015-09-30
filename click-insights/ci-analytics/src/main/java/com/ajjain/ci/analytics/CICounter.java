@@ -18,7 +18,7 @@ import org.apache.pig.data.Tuple;
 public class CICounter extends EvalFunc<Long> {
 
 	/** The df. */
-	private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss:S");
+	private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S");
 
 	/**
 	 * Interval.

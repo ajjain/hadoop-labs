@@ -2,6 +2,7 @@ package in.ajjain.ci.view.service;
 
 import in.ajjain.ci.view.resources.ClickInsightsResource;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -16,6 +17,7 @@ public class ClickInsightsApplication extends Application<ClickInsightsConfigura
 	@Override
 	public void initialize(Bootstrap<ClickInsightsConfiguration> bootstrap) {
 		super.initialize(bootstrap);
+		bootstrap.addBundle(new AssetsBundle("/assets/", "/"));
 	}
 	
 	/* (non-Javadoc)
@@ -23,6 +25,7 @@ public class ClickInsightsApplication extends Application<ClickInsightsConfigura
 	 */
 	@Override
 	public void run(ClickInsightsConfiguration config, Environment env)	throws Exception {
+		env.jersey().setUrlPattern("/rest/*");
 		final ClickInsightsResource resource = new ClickInsightsResource();
 		env.jersey().register(resource);
 	}

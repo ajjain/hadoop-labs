@@ -105,7 +105,7 @@ public class UserSessionGenerator {
 	/** The generex. */
 	private static Generex generex = new Generex(sessionRegEx);
 
-	private static DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss:S");
+	private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S");
 
 
 	/**

@@ -23,6 +23,12 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-assets</artifactId>
+			<version>0.8.4</version>
+		</dependency>
+
+		<dependency>
 			<groupId>in.ajjain.ci</groupId>
 			<artifactId>ci-commons</artifactId>
 			<version>1.0</version>
