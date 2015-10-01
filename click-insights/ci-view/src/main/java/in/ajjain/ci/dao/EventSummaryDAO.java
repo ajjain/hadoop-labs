@@ -5,6 +5,7 @@ import in.ajjain.ci.common.hbase.HBaseTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -51,7 +52,7 @@ public class EventSummaryDAO extends AbstractDAO{
 	 * @return the page views from to hours
 	 */
 	public List<Map<String, String>> getPageViewsFromToHours(String from, String to){
-		List<Map<String, String>> txResultList = new ArrayList<>();
+		List<Map<String, String>> txResultList = new LinkedList<>();
 		List<Map<byte[], byte[]>> resultList = this.getTemplate().find(this.getTablename(), HBaseTableCFNames.CF_PAGE_VIEW, from, to);
 		for(Map<byte[], byte[]> result: resultList){
 			Map<String, String> txResult = new HashMap<>();
