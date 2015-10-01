@@ -13,7 +13,9 @@ import com.codahale.metrics.annotation.Timed;
 
 import in.ajjain.ci.common.hbase.HBaseManager;
 import in.ajjain.ci.common.hbase.HBaseTemplate;
+import in.ajjain.ci.common.utils.CIUtils;
 import in.ajjain.ci.dao.EventSummaryDAO;
+import in.ajjain.ci.dao.UserPageViewsDAO;
 
 /**
  * The Class ClickInsightsResource.
@@ -23,11 +25,13 @@ import in.ajjain.ci.dao.EventSummaryDAO;
 public class ClickInsightsResource {
 	
 	private EventSummaryDAO eventSummaryDao;
+	private UserPageViewsDAO userPageViewsDao;
 	
 	public ClickInsightsResource(){
 		HBaseManager manager = new HBaseManager();
 		HBaseTemplate template = new HBaseTemplate(manager);
 		this.eventSummaryDao = new EventSummaryDAO(template);
+		this.userPageViewsDao = new UserPageViewsDAO(template);
 	}
 	
 	@GET
@@ -56,5 +60,30 @@ public class ClickInsightsResource {
 			return eventSummaryDao.getPageViewsFromToHours(fromHour, toHour);
 		else
 			throw new IllegalArgumentException("Illegal arguments to most_visited_pages_distribution REST API");
+    }
+	
+	@GET
+    @Timed
+    @Path("user_page_views_distribution")
+    public List<Map<String, String>> user_page_views_distribution(
+    		@QueryParam("from_hour") String fromHour,
+    		@QueryParam("to_hour") String toHour) {
+		if (toHour != null && fromHour != null)
+			return userPageViewsDao.getUserStatsFromToHours(fromHour, toHour);
+		else
+			throw new IllegalArgumentException("Illegal arguments to user_page_views_distribution REST API");
+    }
+	
+	@GET
+    @Timed
+    @Path("user_page_views")
+    public Map<String, Long> user_page_views(
+    		@QueryParam("hour") String hour,
+    		@QueryParam("url") String url) {
+		if(hour != null && url != null){
+			return CIUtils.sortByValue(userPageViewsDao.getUserStatsForKey(url, hour));
+		}
+		else
+			throw new IllegalArgumentException("Illegal arguments to user_page_views REST API");
     }
 }

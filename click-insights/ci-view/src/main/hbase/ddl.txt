@@ -1,1 +1,0 @@
-create 'event_summary','page_view'

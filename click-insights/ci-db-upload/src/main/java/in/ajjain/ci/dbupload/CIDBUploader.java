@@ -11,6 +11,9 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import in.ajjain.ci.common.hbase.HBaseTableCFNames;
 import in.ajjain.ci.dbupload.mr.EventSummaryMR.EventSummaryMapper;
 import in.ajjain.ci.dbupload.mr.EventSummaryMR.EventSummaryReducer;
+import in.ajjain.ci.dbupload.mr.PageViewByUsersMR;
+import in.ajjain.ci.dbupload.mr.PageViewByUsersMR.PageViewByUsersMapper;
+import in.ajjain.ci.dbupload.mr.PageViewByUsersMR.PageViewByUsersReducer;
 
 /**
  * The Class CIDBUploader.
@@ -35,15 +38,27 @@ public class CIDBUploader {
         Job job = Job.getInstance(config, "Click Insights DB Uploader");
 		job.setJarByClass(CIDBUploader.class);
 		
-		job.setMapperClass(EventSummaryMapper.class);
+		switch (args[0]) {
+		case "event_summary":
+			job.setMapperClass(EventSummaryMapper.class);
+			TableMapReduceUtil.initTableReducerJob(
+					HBaseTableCFNames.TAB_EVENT_SUMMARY,
+					EventSummaryReducer.class,
+					job);
+			break;
+		case "page_view_by_user":
+			job.setMapperClass(PageViewByUsersMapper.class);
+			TableMapReduceUtil.initTableReducerJob(
+					HBaseTableCFNames.TAB_USERS_BY_PAGE,
+					PageViewByUsersReducer.class,
+					job);
+			break;
+		default:
+			break;
+		}
+		
 		job.setNumReduceTasks(4);
-		FileInputFormat.addInputPath(job, new Path(args[0]));
-		
-		TableMapReduceUtil.initTableReducerJob(
-				HBaseTableCFNames.TAB_EVENT_SUMMARY,
-				EventSummaryReducer.class,
-				job);
-		
+		FileInputFormat.addInputPath(job, new Path(args[1]));
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(Text.class);
 		System.exit(job.waitForCompletion(true) ? 0 : 1);
