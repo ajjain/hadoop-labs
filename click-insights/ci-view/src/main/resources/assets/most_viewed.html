@@ -13,7 +13,11 @@
       <link rel="stylesheet" type="text/css" href="css/dashboard.css">
       <style>
          #mostviewed svg {
-         height: 300px;
+         height: 200px;
+         width: 100%;
+         }
+         #topusers svg {
+         height: 200px;
          width: 100%;
          }
       </style>
@@ -57,8 +61,14 @@
             </div>
          </div>
          <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Most Viewed Pages</h1>
+            <h2 class="page-header">Most Viewed Pages</h1>
             <div id="mostviewed">
+               <svg></svg>
+            </div>
+         </div>
+         <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="page-header">Top Users</h1>
+            <div id="topusers">
                <svg></svg>
             </div>
          </div>
@@ -68,5 +78,6 @@
       <script src="./lib/d3.min.js"></script>
    	  <script src="./lib/nv.d3.min.js"></script>
    	  <script src="./js/most_viewed.js"></script>
+   	  <script src="./js/top_users.js"></script>
    </body>
 </html>

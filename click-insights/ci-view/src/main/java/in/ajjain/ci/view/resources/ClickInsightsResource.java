@@ -77,10 +77,11 @@ public class ClickInsightsResource {
 	@GET
     @Timed
     @Path("user_page_views")
-    public Map<String, Long> user_page_views(
+    public Map<String, String> user_page_views(
     		@QueryParam("hour") String hour,
     		@QueryParam("url") String url) {
 		if(hour != null && url != null){
+			
 			return CIUtils.sortByValue(userPageViewsDao.getUserStatsForKey(url, hour));
 		}
 		else
