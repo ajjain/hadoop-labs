@@ -23,6 +23,19 @@
          height: 200px;
          width: 100%;
          }
+         #geoview svg {
+         height: 400px;
+         width: 100%;
+         }
+         #states path {
+		  fill: #ccc;
+		  stroke: #fff;
+		}
+        circle {
+		  fill: steelblue;
+		  fill-opacity: .8;
+		  stroke: #fff;
+		}
       </style>
    </head>
    <body>
@@ -76,7 +89,7 @@
             </div>
          </div>
          <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="topusersdiv">
-            <h2 class="page-header">Top Users</h1>
+            <h2 class="page-header">Geo Login Distribution</h1>
             <div id="geoview">
                <svg></svg>
             </div>
@@ -86,6 +99,7 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
       <script src="./lib/d3.min.js"></script>
    	  <script src="./lib/nv.d3.min.js"></script>
+   	  <script src="./ref/d3.geo.js"></script>
    	  <script src="./ref/d3.geom.js"></script>
    	  <script src="./js/navactions.js"></script>
    	  <script src="./js/most_viewed.js"></script>
