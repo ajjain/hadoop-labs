@@ -12,6 +12,9 @@
       <link rel="stylesheet" type="text/css" href="css/nv.d3.css">
       <link rel="stylesheet" type="text/css" href="css/dashboard.css">
       <style>
+      	 .hidden {
+		 display:none;
+		 }
          #mostviewed svg {
          height: 200px;
          width: 100%;
@@ -52,7 +55,7 @@
             <div class="col-sm-3 col-md-2 sidebar">
                <ul class="nav nav-sidebar">
                   <li class="active"><a href="#">Analytics <span class="sr-only">(current)</span></a></li>
-                  <li><a href="#">Page Views</a></li>
+                  <li><a href="#" onclick="enablePageViews();">Page Views</a></li>
                   <li><a href="#">Cart Insights</a></li>
                   <li><a href="#">Session</a></li>
                   <li><a href="#">Geographical Analytics</a></li>
@@ -60,13 +63,13 @@
                
             </div>
          </div>
-         <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+         <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="mostvieweddiv">
             <h2 class="page-header">Most Viewed Pages</h1>
             <div id="mostviewed">
                <svg></svg>
             </div>
          </div>
-         <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+         <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="topusersdiv">
             <h2 class="page-header">Top Users</h1>
             <div id="topusers">
                <svg></svg>
@@ -77,6 +80,7 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
       <script src="./lib/d3.min.js"></script>
    	  <script src="./lib/nv.d3.min.js"></script>
+   	  <script src="./js/navactions.js"></script>
    	  <script src="./js/most_viewed.js"></script>
    	  <script src="./js/top_users.js"></script>
    </body>

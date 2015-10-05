@@ -30,7 +30,7 @@ function drawTopUsers(data){
 	});
 }
 
-function fetchdata() {
+function fetchTopUsers() {
 	d3.json(
 			"/api/rest/user_page_views?hour=2015-10-30 01&url=yass.com/view/home", 
 			function(error, json){
@@ -54,4 +54,4 @@ function fetchdata() {
 			}
 	);
 }
-fetchdata();
+fetchTopUsers();

@@ -5,7 +5,7 @@ function Item(x, y, key){
 	this.key = key;
 }
 
-function draw(nested_data){
+function drawMostVisited(nested_data){
 	nv.addGraph(function() {
 		var chart = nv.models.multiBarChart();
 
@@ -23,7 +23,7 @@ function draw(nested_data){
 	});
 }
 
-function fetchdata() {
+function fetchMostVisited() {
 	d3.json(
 			"/api/rest/most_visited_pages_distribution?from_hour=2015-10-25&to_hour=2015-11-01", 
 			function(error, json){
@@ -42,8 +42,8 @@ function fetchdata() {
 				.entries(result);
 				console.log(result);
 				console.log(nested_data);
-				draw(nested_data);
+				drawMostVisited(nested_data);
 			}
 	);
 }
-fetchdata();
+fetchMostVisited();
