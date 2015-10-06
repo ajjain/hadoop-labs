@@ -63,4 +63,13 @@ public class EventSummaryDAO extends AbstractDAO{
 		}
 		return txResultList;
 	}
+	
+	public Map<String, String> getGeoLoginsForKey(String key){
+		Map<byte[], byte[]> result = this.getTemplate().find(this.getTablename(), key, HBaseTableCFNames.CF_GEO_LOGINS);
+		Map<String, String> txResult = new HashMap<>();
+		for(Entry<byte[], byte[]> entry : result.entrySet()){
+			txResult.put(Bytes.toString(entry.getKey()), Bytes.toString(entry.getValue()) );
+		}
+		return txResult;
+	}
 }

@@ -1,14 +1,14 @@
 var svg = d3.select('#geoview svg');
 
 var projection = d3.geo.albersUsa()
-					.scale(700)
-					.translate([500, 200]);
+.scale(700)
+.translate([500, 200]);
 
 var path = d3.geo.path()
-			.projection(projection);
+.projection(projection);
 
 var states = svg.append("svg:g")
-				.attr("id", "states");
+.attr("id", "states");
 
 var circles = svg.append("svg:g")
 .attr("id", "circles");
@@ -20,13 +20,32 @@ d3.json("./ref/us_states.json", function(collection) {
 	.attr("d", path);
 });
 
-circles.selectAll("circle")
-.data([{"geoname":'New York City',"lat":40.7142691,"long":-74.0059738, "value":100}])
-.enter().append("svg:circle")
-.attr("r", function(d, i) { return Math.sqrt(d.value); })
-.attr("transform", function(d) {return "translate(" + projection([d.long,d.lat]) + ")";});
+function GeoItem(geoname, lat, long, value){
+	this.geoname = geoname;
+	this.lat = +lat;
+	this.long = +long;
+	this.value = +value;
+}
 
+d3.json(
+		"/api/rest/geo_logins?hour=2015-09-30 01", 
+		function(error, json){
+			if (error) return console.warn(error);
 
+			var result = new Array();
+			for (var propName in json) {
+				var geofields = propName.split("|");
+				var item = new GeoItem(geofields[0], geofields[1], geofields[2], json[propName]);
+				result.push(item);
+			}
+
+			circles.selectAll("circle")
+			.data(result)
+			.enter().append("svg:circle")
+			.attr("r", function(d, i) { return Math.sqrt(d.value); })
+			.attr("transform", function(d) {return "translate(" + projection([d.long,d.lat]) + ")";});
+		}
+);
 //d3.csv("flights-airport.csv", function(flights) {
 //var linksByOrigin = {},
 //countByAirport = {},
@@ -48,7 +67,7 @@ circles.selectAll("circle")
 
 //d3.csv("airports.csv", function(airports) {
 
-//// Only consider airports with at least one flight.
+////Only consider airports with at least one flight.
 //airports = airports.filter(function(airport) {
 //if (countByAirport[airport.iata]) {
 //var location = [+airport.longitude, +airport.latitude];
@@ -58,7 +77,7 @@ circles.selectAll("circle")
 //}
 //});
 
-//// Compute the Voronoi diagram of airports' projected positions.
+////Compute the Voronoi diagram of airports' projected positions.
 //var polygons = d3.geom.voronoi(positions);
 
 //var g = cells.selectAll("g")

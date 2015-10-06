@@ -25,7 +25,7 @@ function drawMostVisited(nested_data){
 
 function fetchMostVisited() {
 	d3.json(
-			"/api/rest/most_visited_pages_distribution?from_hour=2015-10-25&to_hour=2015-11-01", 
+			"/api/rest/most_visited_pages_distribution?from_hour=2015-09-25&to_hour=2015-11-01", 
 			function(error, json){
 				if (error) return console.warn(error);
 

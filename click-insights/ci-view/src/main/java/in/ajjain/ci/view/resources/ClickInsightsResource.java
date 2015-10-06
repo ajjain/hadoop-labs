@@ -27,6 +27,7 @@ public class ClickInsightsResource {
 	private EventSummaryDAO eventSummaryDao;
 	private UserPageViewsDAO userPageViewsDao;
 	
+	
 	public ClickInsightsResource(){
 		HBaseManager manager = new HBaseManager();
 		HBaseTemplate template = new HBaseTemplate(manager);
@@ -83,6 +84,19 @@ public class ClickInsightsResource {
 		if(hour != null && url != null){
 			
 			return CIUtils.sortByValue(userPageViewsDao.getUserStatsForKey(url, hour));
+		}
+		else
+			throw new IllegalArgumentException("Illegal arguments to user_page_views REST API");
+    }
+	
+	@GET
+    @Timed
+    @Path("geo_logins")
+    public Map<String, String> geo_logins(
+    		@QueryParam("hour") String hour) {
+		if(hour != null){
+			
+			return CIUtils.sortByValue(eventSummaryDao.getGeoLoginsForKey(hour));
 		}
 		else
 			throw new IllegalArgumentException("Illegal arguments to user_page_views REST API");
