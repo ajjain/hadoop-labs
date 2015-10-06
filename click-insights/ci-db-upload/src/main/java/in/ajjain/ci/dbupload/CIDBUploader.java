@@ -11,6 +11,8 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import in.ajjain.ci.common.hbase.HBaseTableCFNames;
 import in.ajjain.ci.dbupload.mr.EventSummaryMR.EventSummaryMapper;
 import in.ajjain.ci.dbupload.mr.EventSummaryMR.EventSummaryReducer;
+import in.ajjain.ci.dbupload.mr.GeoLoginSummaryMR.GeoLoginSummaryMapper;
+import in.ajjain.ci.dbupload.mr.GeoLoginSummaryMR.GeoLoginSummaryReducer;
 import in.ajjain.ci.dbupload.mr.PageViewByUsersMR;
 import in.ajjain.ci.dbupload.mr.PageViewByUsersMR.PageViewByUsersMapper;
 import in.ajjain.ci.dbupload.mr.PageViewByUsersMR.PageViewByUsersReducer;
@@ -53,6 +55,14 @@ public class CIDBUploader {
 					PageViewByUsersReducer.class,
 					job);
 			break;
+		case "geo_login_summary":
+			job.setMapperClass(GeoLoginSummaryMapper.class);
+			TableMapReduceUtil.initTableReducerJob(
+					HBaseTableCFNames.TAB_EVENT_SUMMARY,
+					GeoLoginSummaryReducer.class,
+					job);
+			break;
+
 		default:
 			break;
 		}

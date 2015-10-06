@@ -1,3 +1,5 @@
 INSERT OVERWRITE TABLE event_summary_hourly SELECT substring(event_time, 1, 13) as hour, url, count(*) FROM events_log WHERE instr(url, 'view') > 0 GROUP BY substring(event_time, 1, 13), url;
 
 INSERT OVERWRITE TABLE page_view_by_users_hourly SELECT substring(event_time, 1, 13) as hour, url, email, count(*) FROM events_log WHERE instr(url, 'view') > 0 GROUP BY substring(event_time, 1, 13), url, email;
+
+INSERT OVERWRITE TABLE geo_login_summary_hourly SELECT substring(event_time, 1, 13) as hour, geoname, latitude, longitude, count(*) FROM events_log WHERE instr(url, 'login') > 0 GROUP BY substring(event_time, 1, 13), geoname, latitude, longitude;

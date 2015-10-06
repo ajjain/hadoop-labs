@@ -101,7 +101,7 @@ public class Client {
 				List<EventBean> resultEvents = UserSessionGenerator.getInstance().generate(
 						""+Math.abs(srand.nextInt()), 
 						uAttr.get(2), uAttr.get(0), uAttr.get(1), 
-						lAttr.get(2), lAttr.get(2), lAttr.get(1), 
+						lAttr.get(2), lAttr.get(3), lAttr.get(1), 
 						browsers[(int)(rand.nextFloat() * browsers.length)], 
 						new Date(date.getTime()+(int)(rand.nextFloat() * 1000*3600*24)), 
 						(int)(rand.nextFloat() * 15*60)
@@ -135,7 +135,7 @@ public class Client {
 		Calendar c = Calendar.getInstance();
 		c.set(
 				Integer.parseInt(dateArr[2]), 
-				Integer.parseInt(dateArr[0]), 
+				Integer.parseInt(dateArr[0])-1, 
 				Integer.parseInt(dateArr[1]), 
 				00, 0, 0
 		);

@@ -1,3 +1,5 @@
 create 'event_summary','page_view'
+alter 'event_summary','geo_logins'
+
 create 'users_by_page','user_stats'
 
