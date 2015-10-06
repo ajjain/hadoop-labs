@@ -38,12 +38,17 @@ d3.json(
 				var item = new GeoItem(geofields[0], geofields[1], geofields[2], json[propName]);
 				result.push(item);
 			}
+			var scale = d3.scale.linear()
+			.domain([d3.min(result, function(d){return d.value;}), d3.max(result, function(d){return d.value;})])
+			.range([1, 20]);
 
 			circles.selectAll("circle")
 			.data(result)
 			.enter().append("svg:circle")
-			.attr("r", function(d, i) { return Math.sqrt(d.value); })
-			.attr("transform", function(d) {return "translate(" + projection([d.long,d.lat]) + ")";});
+			.attr("r", function(d, i) { return scale(d.value); })
+			.attr("transform", function(d) {return "translate(" + projection([d.long,d.lat]) + ")";})
+			.append("svg:title")
+				.text(function(d) { return d.geoname+"["+d.value+"]"; });
 		}
 );
 //d3.csv("flights-airport.csv", function(flights) {
